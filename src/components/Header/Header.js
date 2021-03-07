@@ -4,9 +4,7 @@ import './Header.css';
 
 const Header = () => (
   <div className="header">
-    <h1 className="logo">
-      <a href="#">ReStore</a>
-    </h1>
+    <h1 className="logo">ReStore</h1>
     <Cart />
   </div>
 );
