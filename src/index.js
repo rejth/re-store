@@ -25,5 +25,5 @@ ReactDOM.render(
       </ErrorBoundry>
     </ReduxProvider>
   </StrictMode>,
-  document.getElementById('root')
+  document.querySelector('.root')
 );

@@ -1,0 +1,16 @@
+.cart {
+  align-self: center;
+  font-size: 1.3rem;
+  padding-right: 1rem;
+}
+
+.cart-icon {
+  font-size: 3.5rem;
+  color: cadetblue;
+  margin-right: 10px;
+}
+
+.cart-status {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.4rem;
+}
