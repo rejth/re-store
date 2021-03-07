@@ -1,3 +1,3 @@
-import withBookStoreService from './Hoc';
+import withBookStoreService from './withBookStoreService';
 
-export default withBookStoreService;
+export { withBookStoreService };

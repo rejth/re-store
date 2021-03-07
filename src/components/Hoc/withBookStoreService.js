@@ -1,7 +1,7 @@
 import React from 'react';
 import { BookStoreServiceConsumer } from '../BookStoreServiceContext';
 
-const withBookStoreService = WrappedComponent =>
+const withBookStoreService = () => WrappedComponent =>
   function consumerWrapper(props) {
     return (
       <BookStoreServiceConsumer>

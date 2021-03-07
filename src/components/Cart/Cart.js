@@ -18,4 +18,9 @@ Cart.propTypes = {
   price: PropTypes.number,
 };
 
+Cart.defaultProps = {
+  count: 3,
+  price: 6700,
+};
+
 export default Cart;
