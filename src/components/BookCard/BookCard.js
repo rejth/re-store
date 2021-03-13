@@ -5,7 +5,7 @@ import './BookCard.css';
 const BookCard = ({ book }) => {
   const { title, author, price, image } = book;
   return (
-    <div className="card text-dark bg-light">
+    <div className="card text-dark bg-light border-dark mb-3">
       <div className="card-header">{title}</div>
       <img
         src={image}
@@ -15,9 +15,14 @@ const BookCard = ({ book }) => {
       ></img>
       <div className="card-body">
         <h5 className="card-title">{title}</h5>
-        <h6 className="card-subtitle mb-2 text-muted">{author}</h6>
-        <p className="card-text">{price} RUB</p>
-        <button className="btn btn-success btn-lg">Add to Cart</button>
+        <h5 className="card-subtitle mb-2 text-muted">{author}</h5>
+        <h3 className="card-text">{price} RUB</h3>
+        <button
+          className="btn btn-success btn-lg"
+          style={{ marginTop: '20px' }}
+        >
+          Add to Cart
+        </button>
       </div>
     </div>
   );

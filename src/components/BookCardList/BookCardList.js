@@ -25,7 +25,8 @@ const BookCardList = ({ books, loading, error, fetchBooks }) => {
   );
 };
 
-// принимаем state из store и возвращаем {prop: state.key} для передачи state в компонент в качестве props
+// принимаем state из store и возвращаем {prop: state.key}
+// для передачи state в компонент в качестве props
 const mapStateToProps = state => ({
   books: state.books,
   loading: state.loading,

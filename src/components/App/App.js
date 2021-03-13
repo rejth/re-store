@@ -11,7 +11,7 @@ const books = [
     title: 'JavaScript. Подробное руководство',
     author: 'Дэвид Флэнаган',
     price: 3500,
-    count: 2,
+    count: 3,
     image: '../img/book1.jpg',
   },
   {

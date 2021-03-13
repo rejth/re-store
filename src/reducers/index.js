@@ -6,11 +6,14 @@ const defaultState = {
 
 const reducer = (state = defaultState, { type, payload }) => {
   switch (type) {
-    case 'BOOKS_REQUESTED':
+    // FETCH_..._REQUEST - name convention для получения данных с сервера
+    case 'FETCH_BOOKS_REQUEST':
       return { books: [], loading: true, error: false };
-    case 'BOOKS_LOADED':
+    // FETCH_..._SUCCESS - name convention для успешного сетевого запроса
+    case 'FETCH_BOOKS_SUCCESS':
       return { books: payload, loading: false, error: false };
-    case 'BOOKS_ERROR':
+    // FETCH_..._REQUEST - name convention для ошибки при выполнении сетевого запроса
+    case 'FETCH_BOOKS_FAILURE':
       return { books: [], loading: false, error: true };
     case 'ADD_BOOK_TO_CART':
       return { books: payload };

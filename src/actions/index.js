@@ -1,16 +1,17 @@
 const booksLoaded = newBooks => ({
-  type: 'BOOKS_LOADED',
+  type: 'FETCH_BOOKS_SUCCESS',
   payload: newBooks,
 });
 
 const booksRequested = () => ({
-  type: 'BOOKS_REQUESTED',
+  type: 'FETCH_BOOKS_REQUEST',
 });
 
 const booksError = () => ({
-  type: 'BOOKS_ERROR',
+  type: 'FETCH_BOOKS_FAILURE',
 });
 
+// quasi-action для выделения универсальной, часто используемой логики
 const fetchBooks = (dispatch, bookStoreService) => () => {
   dispatch(booksRequested());
   bookStoreService
