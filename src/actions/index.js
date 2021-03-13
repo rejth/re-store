@@ -11,4 +11,12 @@ const booksError = () => ({
   type: 'BOOKS_ERROR',
 });
 
-export { booksLoaded, booksRequested, booksError };
+const fetchBooks = (dispatch, bookStoreService) => () => {
+  dispatch(booksRequested());
+  bookStoreService
+    .getBooks() // получение данных
+    .then(response => dispatch(booksLoaded(response))) // обновление state.books и state.loading
+    .catch(() => dispatch(booksError())); // обновление state.books и state.error
+};
+
+export { fetchBooks };
