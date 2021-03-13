@@ -8,22 +8,24 @@ import BookCard from '../BookCard';
 import Spinner from '../Spinner';
 import ErrorIndicator from '../ErrorIndicator';
 
-const BookCardList = ({ books, loading, error, fetchBooks }) => {
+const BookCardListContainer = ({ books, loading, error, fetchBooks }) => {
   useEffect(() => fetchBooks(), [fetchBooks]);
 
   if (loading) return <Spinner />;
   if (error) return <ErrorIndicator />;
 
-  return (
-    <div className="row">
-      {books.map(book => (
-        <div className="col-sm-6" key={book.id}>
-          <BookCard book={book} />
-        </div>
-      ))}
-    </div>
-  );
+  return <BookCardList books={books} />;
 };
+
+const BookCardList = ({ books }) => (
+  <div className="row">
+    {books.map(book => (
+      <div key={book.id} className="col-sm-6">
+        <BookCard book={book} />
+      </div>
+    ))}
+  </div>
+);
 
 // принимаем state из store и возвращаем {prop: state.key}
 // для передачи state в компонент в качестве props
@@ -44,11 +46,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return { fetchBooks: fetchBooks(dispatch, bookStoreService) };
 };
 
-BookCardList.propTypes = {
+BookCardListContainer.propTypes = {
   books: PropTypes.arrayOf(PropTypes.object).isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired,
   fetchBooks: PropTypes.func.isRequired,
+};
+
+BookCardList.propTypes = {
+  books: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 // BookCardList обрачивается сначала connect(), потом withBookStoreService()
@@ -57,4 +63,4 @@ BookCardList.propTypes = {
 export default compose(
   withBookStoreService(),
   connect(mapStateToProps, mapDispatchToProps)
-)(BookCardList);
+)(BookCardListContainer);

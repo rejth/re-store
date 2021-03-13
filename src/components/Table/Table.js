@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import './Table.css';
 
+// функциональность сортировки данных в таблице
 const useSortableTable = (data, config = null) => {
   const [sortConfig, setSortConfig] = useState(config);
 
@@ -34,85 +35,74 @@ const useSortableTable = (data, config = null) => {
   return { sortedData, requestSort };
 };
 
-const Table = props => {
+// настройка таблицы и логика рендера
+const TableContainer = props => {
   const { books } = props;
   const { sortedData, requestSort } = useSortableTable(books);
 
-  return (
-    <React.Fragment>
-      <div className="shopping-table">
-        <h2 className="table-title">Your Order</h2>
-        <table className="table table-bordered border-primary">
-          <thead>
-            <tr className="table-primary">
-              <th scope="col">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => requestSort('id')}
-                >
-                  ID
-                </button>
-              </th>
-              <th scope="col">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => requestSort('title')}
-                >
-                  Book Name
-                </button>
-              </th>
-              <th scope="col">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => requestSort('count')}
-                >
-                  Count
-                </button>
-              </th>
-              <th scope="col">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => requestSort('price')}
-                >
-                  Price
-                </button>
-              </th>
-              <th scope="col">
-                <button className="btn btn-primary">Action</button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedData.map(item => (
-              <tr key={item.id}>
-                <th scope="row">{item.id}</th>
-                <td>{item.title}</td>
-                <td>{item.count}</td>
-                <td>{item.price}</td>
-                <td>
-                  <div className="btn-group" role="group" aria-label="Buttons">
-                    <button className="btn btn-outline-success">
-                      <i className="fa fa-plus"></i>
-                    </button>
-                    <button className="btn btn-outline-warning">
-                      <i className="fa fa-minus"></i>
-                    </button>
-                    <button className="btn btn-outline-danger">
-                      <i className="fa fa-trash-o"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </React.Fragment>
-  );
+  const columnProperties = [
+    { name: 'id', label: '#' },
+    { name: 'title', label: 'Book Name' },
+    { name: 'count', label: 'Count' },
+    { name: 'price', label: 'Price' },
+    { name: 'action', label: 'Action' },
+  ];
+
+  const columns = columnProperties.map(({ name, label }) => {
+    const columnClassName = 'btn btn-primary';
+    return (
+      <th key={name} scope="col">
+        <button className={columnClassName} onClick={() => requestSort(name)}>
+          {label}
+        </button>
+      </th>
+    );
+  });
+
+  const data = sortedData.map(({ id, title, count, price }) => (
+    <tr key={id}>
+      <th scope="row">{id}</th>
+      <td>{title}</td>
+      <td>{count}</td>
+      <td>{price}</td>
+      <td>
+        <div className="btn-group" role="group" aria-label="Buttons">
+          <button className="btn btn-outline-success">
+            <i className="fa fa-plus"></i>
+          </button>
+          <button className="btn btn-outline-warning">
+            <i className="fa fa-minus"></i>
+          </button>
+          <button className="btn btn-outline-danger">
+            <i className="fa fa-trash-o"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  ));
+
+  return <Table columns={columns} data={data} />;
 };
 
-Table.propTypes = {
+const Table = ({ columns, data }) => (
+  <div className="shopping-table">
+    <h2 className="table-title">Your Order</h2>
+    <table className="table table-bordered border-primary">
+      <thead>
+        <tr className="table-primary">{columns}</tr>
+      </thead>
+      <tbody>{data}</tbody>
+    </table>
+  </div>
+);
+
+TableContainer.propTypes = {
   books: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default Table;
+Table.propTypes = {
+  columns: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
+};
+
+export default TableContainer;

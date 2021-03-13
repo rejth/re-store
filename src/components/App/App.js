@@ -3,13 +3,13 @@ import { Route, Switch } from 'react-router-dom';
 import { AboutBookPage, CartPage } from '../Pages';
 import Header from '../Header';
 import BookCardList from '../BookCardList';
-import Table from '../Table';
+import TableContainer from '../Table';
 
 const books = [
   {
     id: 1,
-    title: 'JavaScript. Подробное руководство',
-    author: 'Дэвид Флэнаган',
+    title: 'JavaScript. Detailed guide',
+    author: 'David Flanagan',
     price: 3500,
     count: 3,
     image: '../img/book1.jpg',
@@ -28,7 +28,7 @@ const App = () => (
   <React.Fragment>
     <Header />
     <BookCardList />
-    <Table books={books} />
+    <TableContainer books={books} />
     <Switch>
       <Route path="/shop-cart" exact={true} component={CartPage} />
       <Route path="/about-book" exact={true} component={AboutBookPage} />

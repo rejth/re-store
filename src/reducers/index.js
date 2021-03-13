@@ -1,5 +1,6 @@
 const defaultState = {
   books: [],
+  booksInCart: [],
   loading: true,
   error: false,
 };
@@ -8,19 +9,19 @@ const reducer = (state = defaultState, { type, payload }) => {
   switch (type) {
     // FETCH_..._REQUEST - name convention для получения данных с сервера
     case 'FETCH_BOOKS_REQUEST':
-      return { books: [], loading: true, error: false };
+      return { books: [], booksInCart: [], loading: true, error: false };
     // FETCH_..._SUCCESS - name convention для успешного сетевого запроса
     case 'FETCH_BOOKS_SUCCESS':
-      return { books: payload, loading: false, error: false };
+      return { ...state, books: payload, loading: false };
     // FETCH_..._REQUEST - name convention для ошибки при выполнении сетевого запроса
     case 'FETCH_BOOKS_FAILURE':
-      return { books: [], loading: false, error: true };
+      return { ...state, books: [], error: true };
     case 'ADD_BOOK_TO_CART':
-      return { books: payload };
+      return { ...state, booksInCart: payload };
     case 'REMOVE_BOOK_FROM_CART':
-      return { books: payload };
+      return { ...state, booksInCart: payload };
     case 'REMOVE_BOOK':
-      return { books: payload };
+      return { ...state, booksInCart: payload };
     default:
       return state;
   }

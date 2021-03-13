@@ -2,8 +2,8 @@ export default class BookStoreService {
   defaultData = [
     {
       id: 1,
-      title: 'JavaScript. Подробное руководство',
-      author: 'Дэвид Флэнаган',
+      title: 'JavaScript. Detailed guide',
+      author: 'David Flanagan',
       price: 3500,
       count: 3,
       image: '../img/book1.jpg',

@@ -1,3 +1,3 @@
-import Table from './Table';
+import TableContainer from './Table';
 
-export default Table;
+export default TableContainer;
