@@ -74,6 +74,7 @@
 
 .error-indicator .error-message {
   text-align: center;
-  font-size: 1.2rem;
   margin-left: 1rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.4rem;
 }

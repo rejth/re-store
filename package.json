@@ -12,10 +12,14 @@
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build",
     "build": "react-scripts build",
+    "start": "react-scripts start",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "webpack serve --config webpack.dev.config.js",
+    "watch": "webpack --watch --config webpack.dev.config.js"
   },
   "eslintConfig": {
     "extends": [

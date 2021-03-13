@@ -8,7 +8,7 @@ import Table from '../Table';
 const books = [
   {
     id: 1,
-    title: 'javaScript. Подробное руководство',
+    title: 'JavaScript. Подробное руководство',
     author: 'Дэвид Флэнаган',
     price: 3500,
     count: 2,
