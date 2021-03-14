@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Table.css';
 
@@ -7,10 +8,8 @@ const useSortableTable = (data, config = null) => {
   const [sortConfig, setSortConfig] = useState(config);
 
   const sortedData = useMemo(() => {
-    const sortableData = [...data];
-
     if (sortConfig !== null) {
-      sortableData.sort((a, b) => {
+      data.sort((a, b) => {
         if (a[sortConfig.field] < b[sortConfig.field]) {
           return sortConfig.direction === 'asc' ? -1 : 1;
         }
@@ -21,7 +20,7 @@ const useSortableTable = (data, config = null) => {
       });
     }
 
-    return sortableData;
+    return data;
   }, [data, sortConfig]);
 
   const requestSort = field => {
@@ -37,7 +36,8 @@ const useSortableTable = (data, config = null) => {
 
 // настройка таблицы и логика рендера
 const TableContainer = props => {
-  const { books } = props;
+  const { books, onIncrease, onDecrease, onDelete } = props;
+  console.log(books);
   const { sortedData, requestSort } = useSortableTable(books);
 
   const columnProperties = [
@@ -48,10 +48,11 @@ const TableContainer = props => {
     { name: 'action', label: 'Action' },
   ];
 
-  const columns = columnProperties.map(({ name, label }) => {
+  const columns = columnProperties.map((item, index) => {
+    const { name, label } = item;
     const columnClassName = 'btn btn-primary';
     return (
-      <th key={name} scope="col">
+      <th key={index} scope="col">
         <button className={columnClassName} onClick={() => requestSort(name)}>
           {label}
         </button>
@@ -59,27 +60,39 @@ const TableContainer = props => {
     );
   });
 
-  const data = sortedData.map(({ id, title, count, price }) => (
-    <tr key={id}>
-      <th scope="row">{id}</th>
-      <td>{title}</td>
-      <td>{count}</td>
-      <td>{price}</td>
-      <td>
-        <div className="btn-group" role="group" aria-label="Buttons">
-          <button className="btn btn-outline-success">
-            <i className="fa fa-plus"></i>
-          </button>
-          <button className="btn btn-outline-warning">
-            <i className="fa fa-minus"></i>
-          </button>
-          <button className="btn btn-outline-danger">
-            <i className="fa fa-trash-o"></i>
-          </button>
-        </div>
-      </td>
-    </tr>
-  ));
+  const data = sortedData.map((item, index) => {
+    const { id, title, count, price } = item;
+    return (
+      <tr key={index}>
+        <th scope="row">{id}</th>
+        <td>{title}</td>
+        <td>{count}</td>
+        <td>{price}</td>
+        <td>
+          <div className="btn-group" role="group" aria-label="Buttons">
+            <button
+              className="btn btn-outline-success"
+              onClick={() => onIncrease(id)}
+            >
+              <i className="fa fa-plus"></i>
+            </button>
+            <button
+              className="btn btn-outline-warning"
+              onClick={() => onDecrease(id)}
+            >
+              <i className="fa fa-minus"></i>
+            </button>
+            <button
+              className="btn btn-outline-danger"
+              onClick={() => onDelete(id)}
+            >
+              <i className="fa fa-trash-o"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    );
+  });
 
   return <Table columns={columns} data={data} />;
 };
@@ -96,8 +109,19 @@ const Table = ({ columns, data }) => (
   </div>
 );
 
+const mapStateToProps = state => ({ books: state.cartBooks });
+
+const mapDispatchToProps = () => ({
+  onIncrease: id => console.log(`Increased! ${id}`),
+  onDecrease: id => console.log(`Decreased! ${id}`),
+  onDelete: id => console.log(`Deleted! ${id}`),
+});
+
 TableContainer.propTypes = {
   books: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onIncrease: PropTypes.func.isRequired,
+  onDecrease: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 Table.propTypes = {
@@ -105,4 +129,4 @@ Table.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-export default TableContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(TableContainer);
