@@ -6,6 +6,7 @@ const defaultState = {
       title: 'JavaScript. Detailed guide',
       author: 'David Flanagan',
       price: 3500,
+      total: 3500,
       count: 1,
       image: '../img/book1.jpg',
     },
@@ -14,6 +15,7 @@ const defaultState = {
       title: 'Client-Server Web Apps with JavaScript and Java',
       author: 'Casimir Saternos',
       price: 3200,
+      total: 3200,
       count: 1,
       image: '../img/book2.jpg',
     },
@@ -40,15 +42,28 @@ const reducer = (state = defaultState, { type, payload }) => {
     case 'BOOK_ADDED_TO_CART': {
       const bookId = payload;
       const book = state.books.find(book => book.id === bookId);
-      const newItem = {
-        id: bookId,
-        title: book.title,
-        author: book.author,
-        price: book.price,
-        count: book.count,
-        image: book.image,
-      };
-      return { ...state, cartBooks: [...state.cartBooks, newItem] };
+      const cartItemIndex = state.cartBooks.findIndex(
+        book => book.id === bookId
+      );
+      const cartItem = state.cartBooks[cartItemIndex];
+
+      // если книги нет в корзине, добавляем новую книгу
+      if (!cartItem) {
+        const newItem = { ...book, id: bookId };
+        return { ...state, cartBooks: [...state.cartBooks, newItem] };
+        // иначе обновляем total и count существующей книги
+      } else {
+        const newItem = {
+          ...cartItem,
+          total: cartItem.total + cartItem.price,
+          count: cartItem.count + 1,
+        };
+        const newCartBooks = [
+          ...state.cartBooks.slice(0, cartItemIndex),
+          ...state.cartBooks.slice(cartItemIndex + 1),
+        ];
+        return { ...state, cartBooks: [...newCartBooks, newItem] };
+      }
     }
 
     // Удаление экземпляра книги из корзины

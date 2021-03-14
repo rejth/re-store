@@ -60,13 +60,13 @@ const TableContainer = props => {
   });
 
   const data = sortedData.map((item, index) => {
-    const { id, title, count, price } = item;
+    const { id, title, count, total } = item;
     return (
       <tr key={index}>
         <th scope="row">{id}</th>
         <td>{title}</td>
         <td>{count}</td>
-        <td>{price}</td>
+        <td>{total}</td>
         <td>
           <div className="btn-group" role="group" aria-label="Buttons">
             <button
