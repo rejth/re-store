@@ -21,8 +21,9 @@ const bookAddedToCart = bookId => ({
 });
 
 // action для удаления экзмепляра книги из корзины
-const bookRemovedFromCart = () => ({
+const bookRemovedFromCart = bookId => ({
   type: 'BOOK_REMOVED_FROM_CART',
+  payload: bookId,
 });
 
 // action для полного удаления всех экзмепляров книги из корзины

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { connect } from 'react-redux';
+import { bookAddedToCart, bookRemovedFromCart } from '../../actions';
 import PropTypes from 'prop-types';
 import './Table.css';
 
@@ -36,7 +37,7 @@ const useSortableTable = (data, config = null) => {
 
 // настройка таблицы и логика рендера
 const TableContainer = props => {
-  const { books, onIncrease, onDecrease, onDelete } = props;
+  const { books, onAddedBook, onRemovedBook, onDeletedBook } = props;
   const { sortedData, requestSort } = useSortableTable(books);
 
   const columnProperties = [
@@ -71,19 +72,19 @@ const TableContainer = props => {
           <div className="btn-group" role="group" aria-label="Buttons">
             <button
               className="btn btn-outline-success"
-              onClick={() => onIncrease(id)}
+              onClick={() => onAddedBook(id)}
             >
               <i className="fa fa-plus"></i>
             </button>
             <button
               className="btn btn-outline-warning"
-              onClick={() => onDecrease(id)}
+              onClick={() => onRemovedBook(id)}
             >
               <i className="fa fa-minus"></i>
             </button>
             <button
               className="btn btn-outline-danger"
-              onClick={() => onDelete(id)}
+              onClick={() => onDeletedBook(id)}
             >
               <i className="fa fa-trash-o"></i>
             </button>
@@ -110,17 +111,17 @@ const Table = ({ columns, data }) => (
 
 const mapStateToProps = state => ({ books: state.cartBooks });
 
-const mapDispatchToProps = () => ({
-  onIncrease: id => console.log(`Increased! ${id}`),
-  onDecrease: id => console.log(`Decreased! ${id}`),
-  onDelete: id => console.log(`Deleted! ${id}`),
+const mapDispatchToProps = dispatch => ({
+  onAddedBook: id => dispatch(bookAddedToCart(id)),
+  onRemovedBook: id => dispatch(bookRemovedFromCart(id)),
+  onDeletedBook: id => console.log(`Deleted! ${id}`),
 });
 
 TableContainer.propTypes = {
   books: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onIncrease: PropTypes.func.isRequired,
-  onDecrease: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onAddedBook: PropTypes.func.isRequired,
+  onRemovedBook: PropTypes.func.isRequired,
+  onDeletedBook: PropTypes.func.isRequired,
 };
 
 Table.propTypes = {

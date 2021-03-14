@@ -4,24 +4,48 @@ const defaultState = {
     {
       id: 1,
       title: 'JavaScript. Detailed guide',
-      author: 'David Flanagan',
       price: 3500,
       total: 3500,
       count: 1,
-      image: '../img/book1.jpg',
     },
     {
       id: 2,
       title: 'Client-Server Web Apps with JavaScript and Java',
-      author: 'Casimir Saternos',
       price: 3200,
       total: 3200,
       count: 1,
-      image: '../img/book2.jpg',
     },
   ],
   loading: true,
   error: false,
+};
+
+// обновление корзины
+const addItemToCart = (cartBooks, item, index) => {
+  // если в корзине еще нет выбранной книги, добавляем новую книгу
+  if (index === -1) return [...cartBooks, item];
+  // иначе обновляем корзину, добавляя новый экземпляр книги
+  return [...cartBooks.slice(0, index), item, ...cartBooks.slice(index + 1)];
+};
+
+// создание нового экземпляра книги для добавления к корзину
+const updateCartItem = (book, item = {}) => {
+  const { total = 0, count = 0 } = item;
+  return {
+    ...book,
+    total: total + book.price,
+    count: count + 1,
+  };
+};
+
+// удаление экземпляра книги из корзины
+const removeItemFromCart = (cartBooks, item, index) => {
+  const newItem = {
+    ...item,
+    total: item.total - item.price,
+    count: item.count - 1,
+  };
+  return [...cartBooks.slice(0, index), newItem, ...cartBooks.slice(index + 1)];
 };
 
 const reducer = (state = defaultState, { type, payload }) => {
@@ -40,35 +64,34 @@ const reducer = (state = defaultState, { type, payload }) => {
 
     // Добавление экземпляра книги в корзину
     case 'BOOK_ADDED_TO_CART': {
+      // id выбранной книги
       const bookId = payload;
+      // поиск выбранной книги в исходных данных
       const book = state.books.find(book => book.id === bookId);
-      const cartItemIndex = state.cartBooks.findIndex(
-        book => book.id === bookId
-      );
-      const cartItem = state.cartBooks[cartItemIndex];
-
-      // если книги нет в корзине, добавляем новую книгу
-      if (!cartItem) {
-        const newItem = { ...book, id: bookId };
-        return { ...state, cartBooks: [...state.cartBooks, newItem] };
-        // иначе обновляем total и count существующей книги
-      } else {
-        const newItem = {
-          ...cartItem,
-          total: cartItem.total + cartItem.price,
-          count: cartItem.count + 1,
-        };
-        const newCartBooks = [
-          ...state.cartBooks.slice(0, cartItemIndex),
-          ...state.cartBooks.slice(cartItemIndex + 1),
-        ];
-        return { ...state, cartBooks: [...newCartBooks, newItem] };
-      }
+      // поиск выбранной книги в корзине
+      const cartItemIdx = state.cartBooks.findIndex(book => book.id === bookId);
+      const cartItem = state.cartBooks[cartItemIdx];
+      // создание|обновление экземпляра книги
+      const newItem = updateCartItem(book, cartItem);
+      // обновляем state, добавляя новый экземпляр книги в корзину
+      return {
+        ...state,
+        cartBooks: addItemToCart(state.cartBooks, newItem, cartItemIdx),
+      };
     }
 
     // Удаление экземпляра книги из корзины
-    case 'BOOK_REMOVED_FROM_CART':
-      return { ...state, cartBooks: payload };
+    case 'BOOK_REMOVED_FROM_CART': {
+      // id выбранной книги
+      const bookId = payload;
+      // поиск выбранной книги в корзине
+      const cartItemIdx = state.cartBooks.findIndex(book => book.id === bookId);
+      const cartItem = state.cartBooks[cartItemIdx];
+      return {
+        ...state,
+        cartBooks: removeItemFromCart(state.cartBooks, cartItem, cartItemIdx),
+      };
+    }
 
     // Полное удаление всех экземпляров книги из корзины
     case 'BOOK_DELETED':
