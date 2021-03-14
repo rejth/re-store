@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './BookCard.css';
 
-const BookCard = ({ book }) => {
-  const { title, author, price, image } = book;
+const BookCard = ({ book, onAddedBook }) => {
+  const { id, title, author, price, image } = book;
   return (
     <div className="card text-dark bg-light border-dark mb-3">
       <div className="card-header">{title}</div>
@@ -20,6 +20,7 @@ const BookCard = ({ book }) => {
         <button
           className="btn btn-success btn-lg"
           style={{ marginTop: '20px' }}
+          onClick={() => onAddedBook(id)}
         >
           Add to Cart
         </button>
@@ -30,6 +31,7 @@ const BookCard = ({ book }) => {
 
 BookCard.propTypes = {
   book: PropTypes.object.isRequired,
+  onAddedBook: PropTypes.func.isRequired,
 };
 
 export default BookCard;

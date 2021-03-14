@@ -5,7 +5,7 @@ export default class BookStoreService {
       title: 'JavaScript. Detailed guide',
       author: 'David Flanagan',
       price: 3500,
-      count: 3,
+      count: 1,
       image: '../img/book1.jpg',
     },
     {
@@ -13,7 +13,7 @@ export default class BookStoreService {
       title: 'Client-Server Web Apps with JavaScript and Java',
       author: 'Casimir Saternos',
       price: 3200,
-      count: 2,
+      count: 1,
       image: '../img/book2.jpg',
     },
   ];

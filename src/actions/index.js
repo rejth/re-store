@@ -1,26 +1,33 @@
+// action в случае успешного сетевого запроса
 const booksLoaded = newBooks => ({
   type: 'FETCH_BOOKS_SUCCESS',
   payload: newBooks,
 });
 
+// action для получения данных с сервера
 const booksRequested = () => ({
   type: 'FETCH_BOOKS_REQUEST',
 });
 
+// action в случае ошибки при выполнении сетевого запроса
 const booksError = () => ({
   type: 'FETCH_BOOKS_FAILURE',
 });
 
-const addBookToCart = () => ({
-  type: 'ADD_BOOK_TO_CART',
+// action для добавления экзмепляра книги в корзину
+const bookAddedToCart = bookId => ({
+  type: 'BOOK_ADDED_TO_CART',
+  payload: bookId,
 });
 
-const removeBookFromCart = () => ({
-  type: 'REMOVE_BOOK_FROM_CART',
+// action для удаления экзмепляра книги из корзины
+const bookRemovedFromCart = () => ({
+  type: 'BOOK_REMOVED_FROM_CART',
 });
 
-const removeBook = () => ({
-  type: 'FREMOVE_BOOK',
+// action для полного удаления всех экзмепляров книги из корзины
+const bookDeleted = () => ({
+  type: 'BOOK_DELETED',
 });
 
 // quasi-action для выделения универсальной, часто используемой логики
@@ -32,4 +39,4 @@ const fetchBooks = (dispatch, bookStoreService) => () => {
     .catch(() => dispatch(booksError())); // обновление state.books и state.error
 };
 
-export { fetchBooks, addBookToCart, removeBookFromCart, removeBook };
+export { fetchBooks, bookAddedToCart, bookRemovedFromCart, bookDeleted };

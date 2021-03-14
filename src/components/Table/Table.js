@@ -37,7 +37,6 @@ const useSortableTable = (data, config = null) => {
 // настройка таблицы и логика рендера
 const TableContainer = props => {
   const { books, onIncrease, onDecrease, onDelete } = props;
-  console.log(books);
   const { sortedData, requestSort } = useSortableTable(books);
 
   const columnProperties = [
