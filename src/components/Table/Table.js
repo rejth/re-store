@@ -1,6 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { connect } from 'react-redux';
-import { bookAddedToCart, bookRemovedFromCart } from '../../actions';
+import {
+  bookAddedToCart,
+  bookRemovedFromCart,
+  bookDeleted,
+} from '../../actions';
 import PropTypes from 'prop-types';
 import './Table.css';
 
@@ -42,9 +46,9 @@ const TableContainer = props => {
 
   const columnProperties = [
     { name: 'id', label: '#' },
-    { name: 'title', label: 'Book Name' },
+    { name: 'title', label: 'Book Title' },
     { name: 'count', label: 'Count' },
-    { name: 'price', label: 'Price' },
+    { name: 'price', label: 'Total price' },
     { name: 'action', label: 'Action' },
   ];
 
@@ -114,7 +118,7 @@ const mapStateToProps = state => ({ books: state.cartBooks });
 const mapDispatchToProps = dispatch => ({
   onAddedBook: id => dispatch(bookAddedToCart(id)),
   onRemovedBook: id => dispatch(bookRemovedFromCart(id)),
-  onDeletedBook: id => console.log(`Deleted! ${id}`),
+  onDeletedBook: id => dispatch(bookDeleted(id)),
 });
 
 TableContainer.propTypes = {

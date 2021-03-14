@@ -48,6 +48,12 @@ const removeItemFromCart = (cartBooks, item, index) => {
   return [...cartBooks.slice(0, index), newItem, ...cartBooks.slice(index + 1)];
 };
 
+// удаление всех экземпляров книги из корзины
+const deleteItem = (cartBooks, index) => [
+  ...cartBooks.slice(0, index),
+  ...cartBooks.slice(index + 1),
+];
+
 const reducer = (state = defaultState, { type, payload }) => {
   switch (type) {
     // FETCH_..._REQUEST - name convention для получения данных с сервера
@@ -82,9 +88,7 @@ const reducer = (state = defaultState, { type, payload }) => {
 
     // Удаление экземпляра книги из корзины
     case 'BOOK_REMOVED_FROM_CART': {
-      // id выбранной книги
       const bookId = payload;
-      // поиск выбранной книги в корзине
       const cartItemIdx = state.cartBooks.findIndex(book => book.id === bookId);
       const cartItem = state.cartBooks[cartItemIdx];
       return {
@@ -94,8 +98,14 @@ const reducer = (state = defaultState, { type, payload }) => {
     }
 
     // Полное удаление всех экземпляров книги из корзины
-    case 'BOOK_DELETED':
-      return { ...state, cartBooks: payload };
+    case 'BOOK_DELETED': {
+      const bookId = payload;
+      const cartItemIdx = state.cartBooks.findIndex(book => book.id === bookId);
+      return {
+        ...state,
+        cartBooks: deleteItem(state.cartBooks, cartItemIdx),
+      };
+    }
 
     default:
       return state;
