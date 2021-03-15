@@ -1,26 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import './Cart.css';
 
-const Cart = ({ count, price }) => (
-  <div className="cart">
-    <a className="cart-icon" href="#">
-      <i className="fa fa-cart-plus"></i>
-    </a>
-    <span className="cart-status">
-      {count} items (${price})
-    </span>
-  </div>
-);
+const Cart = ({ cartBooks }) => {
+  let count = 0;
+  let total = 0;
+
+  if (cartBooks.length !== 0) {
+    count = cartBooks.reduce((a, value) => a + value.count, 0);
+    total = cartBooks.reduce((a, value) => a + value.total, 0);
+  }
+
+  return (
+    <div className="cart">
+      <a className="cart-icon" href="#">
+        <i className="fa fa-cart-plus"></i>
+      </a>
+      <span className="cart-status">
+        {count} items ({total} RUB)
+      </span>
+    </div>
+  );
+};
+
+const mapStateToProps = state => ({ cartBooks: state.cartBooks });
 
 Cart.propTypes = {
-  count: PropTypes.number,
-  price: PropTypes.number,
+  cartBooks: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-Cart.defaultProps = {
-  count: 3,
-  price: 6700,
-};
-
-export default Cart;
+export default connect(mapStateToProps)(Cart);
