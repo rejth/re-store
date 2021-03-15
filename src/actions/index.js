@@ -28,7 +28,7 @@ const bookRemovedFromCart = bookId => ({
 
 // action для полного удаления всех экзмепляров книги из корзины
 const bookDeleted = bookId => ({
-  type: 'BOOK_DELETED',
+  type: 'ALL_BOOK_REMOVED_FROM_CART',
   payload: bookId,
 });
 
