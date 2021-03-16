@@ -13,10 +13,10 @@
   },
   "homepage": "https://rejth.github.io/re-store/",
   "scripts": {
-    "deploy": "gh-pages -d build",
     "predeploy": "npm run build",
-    "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "webpack serve --config webpack.dev.config.js",
