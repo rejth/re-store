@@ -46,9 +46,9 @@ const TableContainer = props => {
 
   const columnProperties = [
     { name: 'id', label: '#' },
-    { name: 'title', label: 'Book Title' },
+    { name: 'title', label: 'Title' },
     { name: 'count', label: 'Count' },
-    { name: 'price', label: 'Total price' },
+    { name: 'price', label: 'Total' },
     { name: 'action', label: 'Action' },
   ];
 

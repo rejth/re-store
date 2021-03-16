@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Cart.css';
 
@@ -14,9 +15,9 @@ const Cart = ({ cartBooks }) => {
 
   return (
     <div className="cart">
-      <a className="cart-icon" href="#">
+      <Link to="/cart" className="cart-icon">
         <i className="fa fa-cart-plus"></i>
-      </a>
+      </Link>
       <span className="cart-status">
         {count} items ({total} RUB)
       </span>
