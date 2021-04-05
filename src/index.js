@@ -18,7 +18,7 @@ ReactDOM.render(
     <ReduxProvider store={store}>
       <ErrorBoundry>
         <BookStoreServiceProvider value={bookStoreService}>
-          <Router>
+          <Router basename="/re-store">
             <App />
           </Router>
         </BookStoreServiceProvider>
