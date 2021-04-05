@@ -7,7 +7,7 @@ export default class BookStoreService {
       price: 3500,
       total: 3500,
       count: 1,
-      image: '../img/book1.jpg',
+      image: '/re-store/img/book1.jpg',
     },
     {
       id: 2,
@@ -16,7 +16,7 @@ export default class BookStoreService {
       price: 3200,
       total: 3200,
       count: 1,
-      image: '../img/book2.jpg',
+      image: '/re-store/img/book2.jpg',
     },
   ];
 
